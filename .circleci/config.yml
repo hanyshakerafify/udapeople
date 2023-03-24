@@ -61,7 +61,7 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run:
-          name: Build front-end
+          name: Build front-end code
           command: |
             cd frontend
             npm install
@@ -82,7 +82,7 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
-          name: Back-end build
+          name: build Back-end code
           command: |
             cd backend
             npm install
@@ -103,7 +103,7 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run:
-          name: Test front-end
+          name: Run front-end unit tests
           command: |
             cd frontend
             npm install
@@ -111,15 +111,24 @@ jobs:
       - slack/notify:
           channel: udapeople-pipe-line-faliure
           event: fail
+          ignore_errors: true
+
+  test-backend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-build]
+      - run:
+          name: run backend unit test
+          command: |
+            cd backend
+            npm run test
+      - slack/notify:
+          channel: udapeople-pipe-line-faliure
+          event: fail
           ignore_errors: true            
-                
-#   test-backend:
-#     docker:
-#       # Docker image here
-#     steps:
-#       # Checkout code from git
-#       # Restore from cache
-#       # Your job code here
             
 #   scan-frontend:
 #     docker:
@@ -310,8 +319,8 @@ workflows:
       - build-backend
       - test-frontend:
           requires: [build-frontend]
-      #- test-backend:
-      #    requires: [build-backend]
+      - test-backend:
+          requires: [build-backend]
       #- scan-backend:
       #    requires: [build-backend]
       #- scan-frontend:
