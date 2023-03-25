@@ -253,7 +253,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.12-rc-alpine3.17
+      - image: hanyshaker1/aws-and-node
     steps:
       - checkout
       - ansible_installation
