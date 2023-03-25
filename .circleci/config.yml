@@ -9,11 +9,7 @@ commands:
     steps:
       - run:
           name: Install Ansible
-          command: |
-            apt update
-            apt install software-properties-common
-            add-apt-repository --yes --update ppa:ansible/ansible
-            apt install ansible
+          command: apk add ansible
 
   awscli_installation:
     description: Install AWS cli commands used by configure server job
