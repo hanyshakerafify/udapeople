@@ -210,7 +210,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - destroy-environment                                      
+      - destroy_environment                                      
 
 #   configure-infrastructure:
 #     docker:
