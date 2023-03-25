@@ -4,6 +4,24 @@ orbs:
   slack: circleci/slack@4.12.1
 
 commands:
+  ansible_installation:
+    description: Installing Ansible used by configure server job
+    steps:
+      - run:
+          name: Install Ansible
+          command: apk add ansible
+
+  awscli_installation:
+    description: Install AWS cli commands used by configure server job
+    steps:
+      - run:
+          name: Install aws/cli
+          command: |
+            apk add tar gzip curl
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            ./aws/install          
+
   destroy_environment:
     description: Destroy back-end and front-end cloudformation stacks by a workflow ID.
     parameters:
@@ -208,26 +226,29 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - destroy_environment                                      
+      - destroy_environment
 
-#   configure-infrastructure:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Configure server
-#           command: |
-#             # Your code here
-#             exit 1
-#       # Here's where you will add some code to rollback on failure      
+  configure-infrastructure:
+    docker:
+      - image: python:3.12-rc-alpine3.17
+    steps:
+      - checkout
+      - ansible_installation
+      - awscli_installation
+      - add_ssh_keys:
+          fingerprints: ["a0:6a:4f:6b:ae:25:1f:7f:b5:c6:9d:e1:3c:92:89:c3"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml
+      - slack/notify:
+          channel: udapeople-pipe-line-faliure
+          event: fail
+          ignore_errors: true
+    #  - destroy_environment                                                 
 
 #   run-migrations:
 #     docker:
@@ -360,8 +381,8 @@ workflows:
           filters:
             branches:
               only: [main]
-      #- configure-infrastructure:
-      #    requires: [deploy-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       #- run-migrations:
       #    requires: [configure-infrastructure]
       #- deploy-frontend:
