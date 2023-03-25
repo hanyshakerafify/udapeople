@@ -253,7 +253,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: hanyshaker1/aws-and-node #This Img contains circleci & AWS CLI
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       # - run:
@@ -265,11 +265,9 @@ jobs:
       #       sudo ./aws/install
       - run:
           name: Run migrations
-          command: |
-            export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+          command: |            
             cd backend            
-            npm install  
-            npm install typescript@latest -g           
+            npm install            
             npm run build            
             
       # - run:
