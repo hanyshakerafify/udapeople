@@ -4,12 +4,19 @@
   apt:
     upgrade: "yes"
 
-- name: "install dependencies."
-  become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+- name: "Install nodejs"
+  shell: |
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt install -y nodejs
+    sudo npm install -g n
+    sudo n 13.8.0
+
+# - name: "install dependencies."
+#   become: true
+#   apt:
+#     name: ["nodejs", "npm"]
+#     state: latest
+#     update_cache: yes
 
 - name: "install pm2"
   become: true
