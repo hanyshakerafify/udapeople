@@ -253,7 +253,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: hanyshaker1/aws-and-node #This Img contains circleci & AWS CLI
+      - image: mareimorsy/aws-node #This Img contains circleci & AWS CLI
     steps:
       - checkout
       # - run:
