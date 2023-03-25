@@ -231,9 +231,10 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       - destroy_environment
+
   configure-infrastructure:
     docker:
-      - image: hanyshaker1/aws-and-node
+      - image: mareimorsy/aws-node
     steps:
       - checkout
       #- ansible_installation
