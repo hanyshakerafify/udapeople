@@ -10,10 +10,10 @@ commands:
       - run:
           name: Install Ansible
           command: |
-            sudo apt update
-            sudo apt install software-properties-common
-            sudo add-apt-repository --yes --update ppa:ansible/ansible
-            sudo apt install ansible
+            apt update
+            apt install software-properties-common
+            add-apt-repository --yes --update ppa:ansible/ansible
+            apt install ansible
 
   awscli_installation:
     description: Install AWS cli commands used by configure server job
@@ -405,13 +405,13 @@ workflows:
     #      requires: [build-frontend]          
     #  - scan-backend:
     #      requires: [build-backend]
-      - deploy-infrastructure:
+    #  - deploy-infrastructure:
     #      requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
+    #      filters:
+    #        branches:
+    #          only: [main]
+      - configure-infrastructure
+     #     requires: [deploy-infrastructure]
       #- run-migrations:
       #    requires: [configure-infrastructure]
       #- deploy-frontend:
