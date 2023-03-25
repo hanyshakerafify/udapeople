@@ -253,7 +253,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: hanyshaker1/aws-and-node
+      - image: python:3.12-rc-alpine3.17
     steps:
       - checkout
       - ansible_installation
@@ -266,7 +266,7 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+          #  aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       - slack/notify:
