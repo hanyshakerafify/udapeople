@@ -285,29 +285,83 @@ jobs:
           event: fail
           ignore_errors: true
       #- destroy-environment  
+  
   deploy-frontend:
     docker:
-      - image: hanyshaker1/aws-and-node
+      - image: cimg/node:13.8.0
     steps:
       - checkout
+
       - run:
-          name: Deploy Frontend
+          name: Install aws/cli
           command: |
-            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-             echo "API_URL=http://$BACKEND_PUBLIC_IP:3030" 
-            # Build the frontend
+            sudo apt install -y tar gzip curl
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            sudo unzip awscliv2.zip
+            sudo ./aws/install
+
+      - run:
+          name: install Python3
+          command: |
+            sudo apt install -y python3
+
+      - run:
+          name: install Ansible
+          command: |
+            sudo apt update
+            sudo apt install -y software-properties-common
+            sudo add-apt-repository --yes --update ppa:ansible/ansible
+            sudo apt install -y ansible
+      - run:
+          name: Get backend url
+          command: |
+            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+             --query 'Reservations[*].Instances[*].PublicIpAddress' \
+             --output text)
+
+            echo "API_URL=http://${BACKEND_PUBLIC_IP}:3030" >> frontend/.env
+            cat frontend/.env
+      - run:
+          name: Deploy frontend objects
+          command: |
             cd frontend
-            echo "API_URL=http://$BACKEND_PUBLIC_IP:3030" > .env
             npm install
-            npm run build:prod
-            # aws s3 sync dist s3://udapeople-project
-            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:5} --recursive
+            npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+
       - slack/notify:
           channel: udapeople-pipe-line-faliure
           event: fail
           ignore_errors: true
+
       #- destroy-environment
-      #- revert-migrations      
+      #- revert-migrations
+  
+  # deploy-frontend:
+  #   docker:
+  #     - image: hanyshaker1/aws-and-node
+  #   steps:
+  #     - checkout    
+  #     - run:
+  #         name: Deploy Frontend
+  #         command: |
+  #           export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+  #            echo "API_URL=http://$BACKEND_PUBLIC_IP:3030" 
+  #           # Build the frontend
+  #           cd frontend
+  #           echo "API_URL=http://$BACKEND_PUBLIC_IP:3030" > .env
+  #           npm install
+  #           npm run build:prod
+  #           # aws s3 sync dist s3://udapeople-project
+  #           aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:5} --recursive
+  #     - slack/notify:
+  #         channel: udapeople-pipe-line-faliure
+  #         event: fail
+  #         ignore_errors: true
+  #     #- destroy-environment
+  #     #- revert-migrations      
                                                     
 
 #   run-migrations:
@@ -426,7 +480,7 @@ jobs:
 workflows:
   default:
     jobs:
-      #- build-frontend
+      - build-frontend
       #- build-backend
       #- test-frontend:
       #    requires: [build-frontend]
@@ -446,7 +500,7 @@ workflows:
       #- run-migrations:
       #    requires: [configure-infrastructure]
       - deploy-frontend:
-          requires: [configure-infrastructure]
+          requires: [build-frontend, configure-infrastructure]
       #- deploy-backend:
       #    requires: [run-migrations]
       #- smoke-test:
