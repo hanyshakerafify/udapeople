@@ -270,16 +270,10 @@ jobs:
           command: |
              export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)            
              export TYPEORM_PORT=5532
-             #export TYPEORM_USERNAME="postgres"
-             #export TYPEORM_PASSWORD="password"
-             #export TYPEORM_DATABASE="glee"
-             #echo ${TYPEORM_DATABASE}
              cd backend
              npm install
              npm run premigrations
              npm run migrations 
-             #> migrations_dump.txt
-             #cat migrations_dump.txt
       # - run:
       #     name: Send migration results to memstash
       #     command: |
@@ -382,7 +376,36 @@ jobs:
 #           command: |
 #             # your code here
 #       # Here's where you will add some code to rollback on failure      
-                    
+  deploy-backend:
+    docker:
+      - image: hanyshaker1/aws-and-node
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["a0:6a:4f:6b:ae:25:1f:7f:b5:c6:9d:e1:3c:92:89:c3"]
+      - run:
+          name: Deploy backend
+          command: |
+            export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+            echo $TYPEORM_HOST >> .circleci/ansible/inventory.txt
+
+            cd backend
+            npm i
+            npm run build
+            echo "TYPEORM_ENTITIES=./dist/modules/domain/**/*.entity{.ts,.js}" > .env
+            echo "TYPEORM_HOST=${TYPEORM_HOST}" >> .env
+            echo "TYPEORM_PORT=${TYPEORM_PORT}" >> .env
+            echo "TYPEORM_USERNAME=${TYPEORM_USERNAME}" >> .env
+            echo "TYPEORM_PASSWORD=${TYPEORM_PASSWORD}" >> .env
+            echo "TYPEORM_DATABASE=${TYPEORM_DATABASE}" >> .env
+            echo "TYPEORM_MIGRATIONS_DIR=./dist/migrations" >> .env
+            echo "TYPEORM_MIGRATIONS=./dist/migrations/*.ts" >> .env
+            tar -czf artifact.tar.gz dist/* package* .env
+            cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/artifact.tar.gz
+            ls ../.circleci/ansible/roles/deploy/
+            cd ../.circleci/ansible
+            ansible-playbook -i inventory.txt deploy-backend.yml
+      # Here's where you will add some code to rollback on failure                     
 #   deploy-backend:
 #     docker:
 #       # Docker image here that supports Ansible
@@ -478,11 +501,11 @@ workflows:
       #       only: [main]
       #- configure-infrastructure:
       #    requires: [deploy-infrastructure]
-      - run-migrations
+      #- run-migrations
       #    requires: [configure-infrastructure]
       #- deploy-frontend
       #    requires: [build-frontend, configure-infrastructure]
-      #- deploy-backend:
+      - deploy-backend
       #    requires: [run-migrations]
       #- smoke-test:
       #    requires: [deploy-backend, deploy-frontend]
