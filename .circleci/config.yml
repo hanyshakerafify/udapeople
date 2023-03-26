@@ -253,18 +253,18 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0
+      - image: hanyshaker1/aws-and-node
     steps:
       - checkout
       - restore_cache:
           keys: [backend-build]      
-      - run:
-          name: Install aws/cli
-          command: |
-            sudo apt install -y tar gzip curl
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            sudo unzip awscliv2.zip
-            sudo ./aws/install
+      # - run:
+      #     name: Install aws/cli
+      #     command: |
+      #       sudo apt install -y tar gzip curl
+      #       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      #       sudo unzip awscliv2.zip
+      #       sudo ./aws/install
       - run:
           name: Run migrations
           command: |
@@ -413,15 +413,15 @@ workflows:
       #    requires: [build-frontend]          
       #- scan-backend:
       #    requires: [build-backend]
-      - deploy-infrastructure:
+      #- deploy-infrastructure:
       #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-             only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
+      #    filters:
+      #      branches:
+      #       only: [main]
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      - run-migrations
+      #    requires: [configure-infrastructure]
       #- deploy-frontend:
       #    requires: [run-migrations]
       #- deploy-backend:
