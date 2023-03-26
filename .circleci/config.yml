@@ -273,7 +273,7 @@ jobs:
              export TYPEORM_USERNAME="postgres"
              export TYPEORM_PASSWORD="password"
              export TYPEORM_DATABASE="glee"
-             echo $TYPEORM_DATABASE
+             echo ${TYPEORM_DATABASE}
              #cd backend
              #npm install
              #npm run migrations > migrations_dump.txt
