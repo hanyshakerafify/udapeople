@@ -269,11 +269,11 @@ jobs:
           name: Run migrations
           command: |
             export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-            echo $TYPEORM_HOST
-            echo $TYPEORM_DATABASE
-            cd backend
-            npm install
-            npm run migrations > migrations_dump.txt
+            echo $TYPEORM_PORT
+            # export $TYPEORM_DATABASE
+            # cd backend
+            # npm install
+            # npm run migrations > migrations_dump.txt
       # - run:
       #     name: Send migration results to memstash
       #     command: |
@@ -465,15 +465,15 @@ workflows:
       #    requires: [build-frontend]          
       #- scan-backend:
       #    requires: [build-backend]
-      - deploy-infrastructure:
+      #- deploy-infrastructure:
       #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-             only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
+      #    filters:
+      #      branches:
+      #       only: [main]
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      - run-migrations
+      #    requires: [configure-infrastructure]
       #- deploy-frontend
       #    requires: [build-frontend, configure-infrastructure]
       #- deploy-backend:
