@@ -380,19 +380,20 @@ jobs:
     docker:
       - image: hanyshaker1/aws-and-node
     steps:
-      - checkout
-      - restore_cache:
-          keys: [backend-build]        
+      - checkout       
       - add_ssh_keys:
           fingerprints: ["a0:6a:4f:6b:ae:25:1f:7f:b5:c6:9d:e1:3c:92:89:c3"]
+      - restore_cache:
+          keys: [backend-build]           
       - run:
           name: Deploy backend
           command: |
             export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             echo $TYPEORM_HOST >> .circleci/ansible/inventory.txt
-
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
             cd backend
-            npm i
+            npm install
             npm run build
             echo "TYPEORM_ENTITIES=./dist/modules/domain/**/*.entity{.ts,.js}" > .env
             echo "TYPEORM_HOST=${TYPEORM_HOST}" >> .env
