@@ -403,11 +403,19 @@ jobs:
             echo "TYPEORM_DATABASE=${TYPEORM_DATABASE}" >> .env
             echo "TYPEORM_MIGRATIONS_DIR=./dist/migrations" >> .env
             echo "TYPEORM_MIGRATIONS=./dist/migrations/*.ts" >> .env
+            echo "NODE_ENV=production" >> .env
             tar -czf artifact.tar.gz dist/* package* .env
             cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/artifact.tar.gz
             ls ../.circleci/ansible/roles/deploy/
             cd ../.circleci/ansible
             ansible-playbook -i inventory.txt deploy-backend.yml
+      - slack/notify:
+          channel: udapeople-pipe-line-faliure
+          event: fail
+          ignore_errors: true
+      #- destroy-environment
+      #- revert-migrations
+
       # Here's where you will add some code to rollback on failure                     
 #   deploy-backend:
 #     docker:
@@ -487,29 +495,29 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]          
-      - scan-backend:
-          requires: [build-backend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-             only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
+      #- build-frontend
+      #- build-backend
+      #- test-frontend:
+      #    requires: [build-frontend]
+      #- test-backend:
+      #    requires: [build-backend]
+      #- scan-frontend:
+      #    requires: [build-frontend]          
+      #- scan-backend:
+      #    requires: [build-backend]
+      #- deploy-infrastructure:
+      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #    filters:
+      #      branches:
+      #       only: [main]
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      #- run-migrations:
+      #    requires: [configure-infrastructure]
       #- deploy-frontend
       #    requires: [build-frontend, configure-infrastructure]
-      - deploy-backend:
-          requires: [run-migrations]
+      - deploy-backend
+      #    requires: [run-migrations]
       #- smoke-test:
       #    requires: [deploy-backend, deploy-frontend]
       #- cloudfront-update:
