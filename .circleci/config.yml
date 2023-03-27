@@ -191,14 +191,14 @@ jobs:
           name: Install tar dependencies
           command: |
             yum install -y tar gzip
-      - run:
-          name: Check and validate back-end infrastructure exists
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/backend.yml \
-              --tags project=udapeople \
-              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}" \
-              --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:5}
+      # - run:
+      #     name: Check and validate back-end infrastructure exists
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file .circleci/files/backend.yml \
+      #         --tags project=udapeople \
+      #         --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}" \
+      #         --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:5}
 
       - run:
           name: Check and validate front-end infrastructure exist
@@ -313,69 +313,7 @@ jobs:
           ignore_errors: true
       #- destroy-environment
       #- revert-migrations
-  
-  # deploy-frontend:
-  #   docker:
-  #     - image: hanyshaker1/aws-and-node
-  #   steps:
-  #     - checkout    
-  #     - run:
-  #         name: Deploy Frontend
-  #         command: |
-  #           export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-  #            echo "API_URL=http://$BACKEND_PUBLIC_IP:3030" 
-  #           # Build the frontend
-  #           cd frontend
-  #           echo "API_URL=http://$BACKEND_PUBLIC_IP:3030" > .env
-  #           npm install
-  #           npm run build:prod
-  #           # aws s3 sync dist s3://udapeople-project
-  #           aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:5} --recursive
-  #     - slack/notify:
-  #         channel: udapeople-pipe-line-faliure
-  #         event: fail
-  #         ignore_errors: true
-  #     #- destroy-environment
-  #     #- revert-migrations      
-                                                    
-
-#   run-migrations:
-#     docker:
-#       # Docker image here that supports NodeJS
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Run migrations
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Send migration results to memstash
-#           command: |
-#             # Your code here
-#             exit 1
-#      # Here's where you will add some code to rollback on failure      
-
-#   deploy-frontend:
-#     docker:
-#       # Docker image here that supports AWS CLI
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Get backend url
-#           command: |
-#             # your code here
-#             export API_URL="http://${BACKEND_IP}:3030"
-#             echo "${API_URL}"
-#       - run:
-#           name: Deploy frontend objects
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure      
+     
   deploy-backend:
     docker:
       - image: hanyshaker1/aws-and-node
@@ -416,23 +354,28 @@ jobs:
       #- destroy-environment
       #- revert-migrations
 
-      # Here's where you will add some code to rollback on failure                     
-#   deploy-backend:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Deploy backend
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  deploy-frontend:
+    docker:
+      - image: hanyshaker1/aws-and-node
+    steps:
+      - checkout
+      - run:
+          name: Deploy Frontend
+          command: |
+            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+             echo "API_URL=http://$BACKEND_PUBLIC_IP:3030" 
+            # Build the frontend
+            cd frontend
+            echo "API_URL=http://$BACKEND_PUBLIC_IP:3030" > .env
+            npm install
+            npm run build:prod
+            # aws s3 sync dist s3://udapeople-project
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:5} --recursive
+      - slack/notify:
+          channel: udapeople-pipe-line-faliure
+          event: fail
+          ignore_errors: true
+      #- destroy-environment            
 
 #   smoke-test:
 #     docker:
@@ -514,10 +457,10 @@ workflows:
       #    requires: [deploy-infrastructure]
       #- run-migrations:
       #    requires: [configure-infrastructure]
-      #- deploy-frontend
-      #    requires: [build-frontend, configure-infrastructure]
-      - deploy-backend
+      #- deploy-backend
       #    requires: [run-migrations]
+      - deploy-frontend:
+          requires: [deploy-infrastructure]      
       #- smoke-test:
       #    requires: [deploy-backend, deploy-frontend]
       #- cloudfront-update:
