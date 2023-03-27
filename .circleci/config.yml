@@ -359,6 +359,8 @@ jobs:
       - image: hanyshaker1/aws-and-node
     steps:
       - checkout
+      - restore_cache:
+          keys: [frontend-build]       
       - run:
           name: Deploy Frontend
           command: |
