@@ -395,14 +395,14 @@ jobs:
             cd backend
             npm install
             npm run build
-            echo "TYPEORM_ENTITIES=./backend/dist/modules/domain/**/*.entity{.ts,.js}" > .env
+            echo "TYPEORM_ENTITIES=./dist/modules/domain/**/*.entity{.ts,.js}" > .env
             echo "TYPEORM_HOST=${TYPEORM_HOST}" >> .env
             echo "TYPEORM_PORT=${TYPEORM_PORT}" >> .env
             echo "TYPEORM_USERNAME=${TYPEORM_USERNAME}" >> .env
             echo "TYPEORM_PASSWORD=${TYPEORM_PASSWORD}" >> .env
             echo "TYPEORM_DATABASE=${TYPEORM_DATABASE}" >> .env
-            echo "TYPEORM_MIGRATIONS_DIR=./backend/dist/migrations" >> .env
-            echo "TYPEORM_MIGRATIONS=./backend/dist/migrations/*.ts" >> .env
+            echo "TYPEORM_MIGRATIONS_DIR=./dist/migrations" >> .env
+            echo "TYPEORM_MIGRATIONS=./dist/migrations/*.ts" >> .env
             echo "NODE_ENV=production" >> .env
             tar -czf artifact.tar.gz dist/* package* .env
             cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/artifact.tar.gz
@@ -495,8 +495,8 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
+      #- build-frontend
+      #- build-backend
       #- test-frontend:
       #    requires: [build-frontend]
       #- test-backend:
@@ -505,19 +505,19 @@ workflows:
       #    requires: [build-frontend]          
       #- scan-backend:
       #    requires: [build-backend]
-      - deploy-infrastructure:
+      #- deploy-infrastructure:
       #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-             only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
+      #    filters:
+      #      branches:
+      #       only: [main]
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      #- run-migrations:
+      #    requires: [configure-infrastructure]
       #- deploy-frontend
       #    requires: [build-frontend, configure-infrastructure]
-      - deploy-backend:
-          requires: [run-migrations]
+      - deploy-backend
+      #    requires: [run-migrations]
       #- smoke-test:
       #    requires: [deploy-backend, deploy-frontend]
       #- cloudfront-update:
