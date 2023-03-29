@@ -1,0 +1,90 @@
+1- configuration Error
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/3
+
+2- Build front end
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/4/workflows/947a5b5e-4448-4c30-8776-0bdafa1b2b96/jobs/1
+
+3- backend failed
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/5/workflows/bb9ddb2f-acdf-4066-86cc-f1e7c3a9a9d4/jobs/2
+
+4- backend failed details
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/5/workflows/bb9ddb2f-acdf-4066-86cc-f1e7c3a9a9d4/jobs/2
+
+5- build backend success
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/6
+
+6- test-frontend failed
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/8
+
+7- test-frontend failed details
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/8/workflows/5fb75036-cf5e-44fd-b94a-76af95732fb4/jobs/10
+
+8- test-frontend success
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/9
+
+9- test-backend failed
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/10
+
+10- test-backend failed details
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/10/workflows/3d5fde21-3355-42f4-bf98-ae1cfda1da0f/jobs/17
+
+11- test-backend success
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/11
+
+
+12- scan front end
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/12
+
+13- scan backend 
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/13
+
+14- deploy infrastructre
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/18
+
+15- deploy infrastructre AWS stacks
+
+16- deploy infrastructre AWS instance
+17- configure-infrastructure success
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/19
+
+18- run migration
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/77/workflows/01f2b167-ce7e-4a39-9b0d-a2c2685af741/jobs/167
+
+19- deploy backend
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/77
+
+21- deploy front end
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/96/workflows/658aef5f-97ca-400d-b618-4e68fbe017a4/jobs/198
+
+23- backend smoke test
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/99/workflows/bf42ec28-8674-433f-b0c1-482d7b52fd52/jobs/214
+
+24- create cloud front
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/99/workflows/bf42ec28-8674-433f-b0c1-482d7b52fd52/jobs/213
+
+25- slack notification for failed jobs
+26- All pipeline success
+https://app.circleci.com/pipelines/github/hanyshakerafify/udapeople/108
+
+27- prometheus server targets
+http://ec2-54-234-153-95.compute-1.amazonaws.com:9090/targets?search=
+
+28- prometheus server targets down
+29- prometheus Firing events
+30- prometheus Firing events slack
+http://ec2-54-234-153-95.compute-1.amazonaws.com:9090/alerts?search=
+
+31- prometheus Firing events Up Again slack
+32- prometheus server target up again
+
+33- prometheus server target Down then firing event then push notification to slack
+34- prometheus server target Up again then firing event then push notification to slack
+35- prometheus server CPU usage
+http://ec2-54-234-153-95.compute-1.amazonaws.com:9090/graph?g0.expr=avg(rate(node_cpu_seconds_total%7Bmode!%3D%22idle%22%7D%5B1m%5D))%20by%20(instance)*100&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1h
+
+36- prometheus server Memory usage
+http://ec2-54-234-153-95.compute-1.amazonaws.com:9090/graph?g0.expr=node_memory_Cached_bytes%20%2B%20node_memory_Buffers_bytes%20%2B%20node_memory_MemFree_bytes&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1h
+
+37- prometheus server HD usage.PNG
+http://ec2-54-234-153-95.compute-1.amazonaws.com:9090/graph?g0.expr=node_filesystem_free_bytes%7Bdevice%3D%22%2Fdev%2Froot%22%7D%20&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1h
+
