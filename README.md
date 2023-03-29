@@ -1,6 +1,32 @@
 ## Udapeople Application
 Implment udacity 3rd project udapeople
 
+### Review Updates
+
+##### - Updated CI/CD Presentation
+CI/CD Presentation [Here](https://github.com/hanyshakerafify/udapeople/blob/main/cicd%20presentation.pdf)
+
+##### - Review Screen shoots
+ [SCREENSHOT01](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT01.PNG)
+ 
+ [SCREENSHOT02](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT02.PNG)
+ 
+ [SCREENSHOT03](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT03.PNG)
+ 
+ [SCREENSHOT04](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT04.PNG)
+ 
+ [SCREENSHOT05](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT05.PNG)
+ 
+ [SCREENSHOT06](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT06.PNG)
+ 
+ [SCREENSHOT08](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT08.PNG)
+ 
+ [SCREENSHOT09](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT09.PNG)
+ 
+ [SCREENSHOT10](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT10.PNG)
+ 
+ [URL03_SCREENSHOT](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/URL03_SCREENSHOT.PNG)
+
 ### Project Submission
 
 - CloudFront URL
