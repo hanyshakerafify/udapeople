@@ -1,28 +1,20 @@
-We are archiving this repository because we do not want learners to push personal development to the current repository. If you have any issues or suggestions to make, feel free to:
-- Utilize the https://knowledge.udacity.com/ forum to seek help on content-specific issues.
-- [Submit a support ticket](https://udacity.zendesk.com/hc/en-us/requests/new) along with the link to your forked repository. 
-- If you are an enterprise learner, please [Submit a support ticket here](https://udacityenterprise.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000279131)
-
-## Give your Application Auto-Deploy Superpowers
-
-In this project, you will prove your mastery of the following learning objectives:
-
-- Explain the fundamentals and benefits of CI/CD to achieve, build, and deploy automation for cloud-based software products.
-- Utilize Deployment Strategies to design and build CI/CD pipelines that support Continuous Delivery processes.
-- Utilize a configuration management tool to accomplish deployment to cloud-based servers.
-- Surface critical server errors for diagnosis using centralized structured logging.
-
-![Diagram of CI/CD Pipeline we will be building.](udapeople.png)
-
-### Instructions
-
-* [Selling CI/CD](instructions/0-selling-cicd.md)
-* [Getting Started](instructions/1-getting-started.md)
-* [Deploying Working, Trustworthy Software](instructions/2-deploying-trustworthy-code.md)
-* [Configuration Management](instructions/3-configuration-management.md)
-* [Turn Errors into Sirens](instructions/4-turn-errors-into-sirens.md)
+## Udapeople Application
+Implment udacity 3rd project udapeople
 
 ### Project Submission
+
+- CloudFront URL
+[Here](http://d1gaogxla42ygj.cloudfront.net/#/employees)
+- Frontend URL
+[Here](http://udapeople-03d8f.s3.amazonaws.com/index.html#/employees)
+- Backend URL
+[Here](http://ec2-3-94-187-143.compute-1.amazonaws.com:3030/api/status)
+- Prometheus Server
+[Here](http://ec2-54-234-153-95.compute-1.amazonaws.com:9090/targets?search=)
+### CI/CD Presentation
+CI/CD Presentation [Here](https://github.com/hanyshakerafify/udapeople/blob/main/cicd%20presentation.pdf)
+
+### ScreenShots
 
 For your submission, please submit the following:
 
@@ -58,7 +50,3 @@ Before you submit your project, please check your work against the project rubri
 - [CloudFormation](https://aws.amazon.com/cloudformation/) - Infrastrcuture as code
 - [Ansible](https://www.ansible.com/) - Configuration management tool
 - [Prometheus](https://prometheus.io/) - Monitoring tool
-
-### License
-
-[License](LICENSE.md)
