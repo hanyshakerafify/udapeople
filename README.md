@@ -3,6 +3,12 @@ Implment udacity 3rd project udapeople
 
 ### Review Updates
 
+#### Missing screen shot 
+Console output of a successful rollback after a failed smoke test. [SCREENSHOT07] [Here](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT07.PNG) [Second one](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT07_1.PNG)
+
+Console output of successful cleanup job that removes old S3 bucket and EC2 instance. [SCREENSHOT09] [Here](https://github.com/hanyshakerafify/udapeople/blob/main/review%20required%20screen%20shoot/SCREENSHOT09.PNG)
+
+
 ##### - Updated CI/CD Presentation
 CI/CD Presentation [Here](https://github.com/hanyshakerafify/udapeople/blob/main/cicd%20presentation.pdf)
 
